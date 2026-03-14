@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U.S. CRE Market Intelligence · Q1 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy: #0B1E3D;
+  --navy-mid: #132848;
+  --navy-light: #1C3560;
+  --blue: #1E5FA8;
+  --blue-mid: #2470C2;
+  --sky: #4A9FDB;
+  --amber: #E07A1F;
+  --amber-light: #F09840;
+  --gold: #C9A84C;
+  --cream: #F5F0E8;
+  --cream-dark: #EDE5D8;
+  --text: #1A1A2E;
+  --text-mid: #3A3A5C;
+  --text-muted: #6B7494;
+  --white: #FFFFFF;
+  --green: #2D9E6B;
+  --red: #C94040;
+  --border: rgba(30,95,168,0.12);
+  --shadow: 0 4px 24px rgba(11,30,61,0.08);
+  --shadow-lg: 0 12px 48px rgba(11,30,61,0.14);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 62px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--amber), var(--gold));
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+}
+.logo-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.logo-sub {
+  font-size: 10px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  flex-shrink: 0;
+}
+.nav-links a {
+  padding: 0.35rem 0.85rem;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.55);
+  text-decoration: none;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.nav-links a:hover, .nav-links a.active {
+  color: var(--white);
+  background: rgba(255,255,255,0.08);
+}
+
+.search-wrap {
+  flex: 1;
+  max-width: 360px;
+  margin-left: auto;
+  position: relative;
+}
+.search-wrap svg {
+  position: absolute; left: 12px; top: 50%;
+  transform: translateY(-50%);
+  width: 15px; height: 15px;
+  color: rgba(255,255,255,0.35);
+  pointer-events: none;
+}
+#globalSearch {
+  width: 100%;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 0.5rem 1rem 0.5rem 2.4rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--white);
+  outline: none;
+  transition: all 0.2s;
+}
+#globalSearch::placeholder { color: rgba(255,255,255,0.3); }
+#globalSearch:focus {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.badge-date {
+  flex-shrink: 0;
+  background: rgba(224,122,31,0.18);
+  border: 1px solid rgba(224,122,31,0.3);
+  color: var(--amber-light);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+}
+
+/* ── SEARCH RESULTS ── */
+#searchResults {
+  display: none;
+  position: fixed;
+  top: 62px; left: 0; right: 0; bottom: 0;
+  background: rgba(11,30,61,0.55);
+  backdrop-filter: blur(4px);
+  z-index: 90;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+.search-results-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.search-results-header {
+  padding: 1.25rem 1.5rem;
+  background: var(--navy);
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.search-close {
+  cursor: pointer; color: rgba(255,255,255,0.4);
+  font-size: 18px; line-height: 1; background: none; border: none;
+  transition: color 0.15s;
+}
+.search-close:hover { color: var(--white); }
+.search-item {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.search-item:hover { background: #F8FAFF; }
+.search-item:last-child { border-bottom: none; }
+.si-section {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--amber); margin-bottom: 3px;
+}
+.si-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.si-snippet { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.si-snippet mark { background: rgba(224,122,31,0.15); color: var(--amber); border-radius: 2px; padding: 0 2px; }
+.search-empty {
+  padding: 3rem 1.5rem; text-align: center; color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ── HERO ── */
+.hero {
+  background: var(--navy);
+  padding: 3.5rem 2rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(36,112,194,0.2) 0%, transparent 70%);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+}
+.hero-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.hero-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--amber);
+  margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 24px; height: 1px; background: var(--amber);
+}
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  color: var(--white);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  max-width: 700px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: rgba(255,255,255,0.55);
+}
+.hero-meta {
+  display: flex; gap: 2rem; align-items: center;
+  flex-wrap: wrap;
+}
+.hero-stat {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.hero-stat-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.4rem; font-weight: 500;
+  color: var(--white);
+}
+.hero-stat-label {
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  font-weight: 500; letter-spacing: 0.04em;
+}
+.hero-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.1); }
+
+/* ── SUMMARY CARDS ── */
+.summary-strip {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  overflow-x: auto;
+}
+.summary-strip-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+}
+.sum-card {
+  padding: 1.1rem 1.6rem;
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  cursor: default;
+  transition: background 0.15s;
+  min-width: 140px;
+}
+.sum-card:hover { background: #F8FAFF; }
+.sum-card:last-child { border-right: none; }
+.sc-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px;
+}
+.sc-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.15rem; font-weight: 500; color: var(--text);
+  margin-bottom: 2px;
+}
+.sc-change {
+  font-size: 11px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 2px;
+}
+.up { color: var(--red); }
+.down { color: var(--green); }
+.neutral { color: var(--text-muted); }
+
+/* ── MAIN LAYOUT ── */
+.main-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: sticky;
+  top: 82px;
+}
+.sidebar-nav {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.sidebar-section-label {
+  padding: 0.85rem 1.1rem 0.5rem;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 0.7rem;
+  padding: 0.7rem 1.1rem;
+  text-decoration: none;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-mid);
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+.sidebar-nav a:hover {
+  color: var(--blue);
+  background: rgba(30,95,168,0.04);
+}
+.sidebar-nav a.active {
+  color: var(--blue);
+  background: rgba(30,95,168,0.06);
+  border-left-color: var(--blue);
+}
+.sidebar-nav a .nav-icon {
+  width: 18px; height: 18px;
+  background: rgba(30,95,168,0.08);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+.sidebar-nav a.active .nav-icon { background: rgba(30,95,168,0.15); }
+
+/* ── CONTENT ── */
+.content { min-width: 0; }
+
+.content-section {
+  margin-bottom: 3rem;
+  scroll-margin-top: 80px;
+}
+
+.section-header {
+  display: flex; align-items: flex-start; gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.section-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.icon-executive { background: linear-gradient(135deg, #0B1E3D, #1C3560); }
+.icon-office { background: linear-gradient(135deg, #1E5FA8, #2470C2); }
+.icon-retail { background: linear-gradient(135deg, #E07A1F, #F09840); }
+.icon-logistics { background: linear-gradient(135deg, #2D9E6B, #3DB880); }
+.icon-hotels { background: linear-gradient(135deg, #8B5CF6, #A78BFA); }
+.icon-cmbs { background: linear-gradient(135deg, #C94040, #E05050); }
+.icon-capital { background: linear-gradient(135deg, #C9A84C, #D4B86A); }
+
+.section-title-group h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.65rem;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.section-title-group p {
+  font-size: 13px; color: var(--text-muted);
+  margin-top: 3px; line-height: 1.5;
+}
+
+/* ── KPI GRID ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+.kpi-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.kpi-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+.kpi-label {
+  font-size: 11px; font-weight: 500; letter-spacing: 0.04em;
+  color: var(--text-muted); margin-bottom: 0.4rem;
+}
+.kpi-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.25rem; font-weight: 500;
+  color: var(--navy); margin-bottom: 0.3rem;
+  line-height: 1.2;
+}
+.kpi-change {
+  font-size: 11px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 2px 6px; border-radius: 4px;
+}
+.kpi-change.up { color: var(--red); background: rgba(201,64,64,0.08); }
+.kpi-change.down { color: var(--green); background: rgba(45,158,107,0.08); }
+.kpi-change.neutral { color: var(--text-muted); background: rgba(107,116,148,0.08); }
+.kpi-source {
+  font-size: 10px; color: var(--text-muted); margin-top: 0.35rem;
+}
+
+/* ── PROSE ── */
+.prose {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  font-size: 14px; line-height: 1.75; color: var(--text-mid);
+}
+.prose p { margin-bottom: 0.85rem; }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--text); }
+
+.callout {
+  border-left: 3px solid var(--amber);
+  background: rgba(224,122,31,0.05);
+  border-radius: 0 8px 8px 0;
+  padding: 0.85rem 1.1rem;
+  font-size: 13px; font-style: italic;
+  color: var(--amber);
+  font-weight: 500; line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+/* ── BULLETS ── */
+.bullet-list {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+}
+.bullet-list li {
+  font-size: 13.5px; line-height: 1.7; color: var(--text-mid);
+  padding: 0.35rem 0 0.35rem 1.4rem;
+  position: relative;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.bullet-list li:last-child { border-bottom: none; }
+.bullet-list li::before {
+  content: '';
+  position: absolute; left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+/* ── DATA TABLE ── */
+.data-table-wrap {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.data-table-toolbar {
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.75rem;
+}
+.data-table-title {
+  font-size: 13px; font-weight: 600; color: var(--text);
+}
+.table-search-input {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--text);
+  outline: none;
+  width: 180px;
+  transition: border-color 0.15s;
+}
+.table-search-input:focus { border-color: var(--blue); }
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  background: var(--navy);
+  color: rgba(255,255,255,0.75);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.75rem 1rem; text-align: left;
+}
+.data-table td {
+  padding: 0.65rem 1rem;
+  font-size: 13px; color: var(--text-mid);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:nth-child(even) td { background: #FAFBFD; }
+.data-table tr:hover td { background: #F0F5FF; }
+.data-table td:first-child { font-weight: 500; color: var(--text); }
+.td-up { color: var(--red); font-weight: 600; }
+.td-down { color: var(--green); font-weight: 600; }
+.td-src { font-size: 11px; color: var(--text-muted); font-style: italic; }
+
+/* ── CHARTS ── */
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.chart-grid.single { grid-template-columns: 1fr; }
+.chart-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.chart-card-title {
+  font-size: 13px; font-weight: 600; color: var(--text);
+  margin-bottom: 0.3rem;
+}
+.chart-card-sub {
+  font-size: 11px; color: var(--text-muted); margin-bottom: 1rem;
+}
+.chart-container {
+  position: relative;
+  height: 220px;
+}
+
+/* ── SECTOR TABS ── */
+.sector-tabs {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+.sector-tab {
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--white);
+  font-size: 12px; font-weight: 500;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.sector-tab.active, .sector-tab:hover {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+
+/* ── HIGHLIGHT BANDS ── */
+.highlight-band {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.hb-card {
+  border-radius: 10px;
+  padding: 1.1rem;
+  display: flex; flex-direction: column; gap: 0.4rem;
+}
+.hb-card.blue { background: linear-gradient(135deg, #1E5FA8, #2470C2); color: white; }
+.hb-card.amber { background: linear-gradient(135deg, #E07A1F, #F09840); color: white; }
+.hb-card.green { background: linear-gradient(135deg, #1A7A50, #2D9E6B); color: white; }
+.hb-card.red { background: linear-gradient(135deg, #9E2020, #C94040); color: white; }
+.hb-card.purple { background: linear-gradient(135deg, #5B21B6, #8B5CF6); color: white; }
+.hb-card.navy { background: linear-gradient(135deg, #0B1E3D, #1C3560); color: white; }
+.hb-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; }
+.hb-value { font-family: 'DM Mono', monospace; font-size: 1.5rem; font-weight: 500; }
+.hb-detail { font-size: 11px; opacity: 0.75; }
+
+/* ── CMBS GAUGE TABLE ── */
+.delinquency-bars {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.dq-row {
+  display: flex; align-items: center; gap: 0.85rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.dq-row:last-child { border-bottom: none; }
+.dq-sector {
+  width: 100px; flex-shrink: 0;
+  font-size: 12px; font-weight: 600; color: var(--text);
+}
+.dq-bar-wrap {
+  flex: 1;
+  height: 10px;
+  background: rgba(0,0,0,0.06);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.dq-bar {
+  height: 100%; border-radius: 99px;
+  transition: width 1s ease;
+}
+.dq-pct {
+  width: 50px; text-align: right;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px; font-weight: 500; color: var(--text);
+}
+.dq-chg {
+  width: 60px; text-align: right; font-size: 11px; font-weight: 600;
+}
+
+/* ── FOOTER ── */
+.site-footer {
+  background: var(--navy);
+  padding: 2rem;
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex; gap: 2rem; align-items: flex-start;
+  flex-wrap: wrap; justify-content: space-between;
+}
+.footer-left h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem; color: var(--white); margin-bottom: 0.4rem;
+}
+.footer-left p {
+  font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.6; max-width: 400px;
+}
+.footer-sources {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+.fsrc {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+  padding: 0.2rem 0.5rem; border-radius: 4px;
+  background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.4);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-in { animation: fadeUp 0.5s ease forwards; opacity: 0; }
+.delay-1 { animation-delay: 0.05s; }
+.delay-2 { animation-delay: 0.1s; }
+.delay-3 { animation-delay: 0.15s; }
+.delay-4 { animation-delay: 0.2s; }
+.delay-5 { animation-delay: 0.25s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .main-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .chart-grid { grid-template-columns: 1fr; }
+  .highlight-band { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .highlight-band { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-mark">CRE</div>
+      <div>
+        <span class="logo-text">Market Intelligence</span>
+        <span class="logo-sub">United States · Q1 2026</span>
+      </div>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#executive" class="active">Summary</a></li>
+        <li><a href="#office">Office</a></li>
+        <li><a href="#retail">Retail</a></li>
+        <li><a href="#logistics">Logistics</a></li>
+        <li><a href="#hotels">Hotels</a></li>
+        <li><a href="#cmbs">CMBS</a></li>
+        <li><a href="#capital">Capital Mkts</a></li>
+      </ul>
+    </nav>
+    <div class="search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="globalSearch" type="text" placeholder="Search metrics, sectors, data…" autocomplete="off">
+    </div>
+    <span class="badge-date">March 2026</span>
+  </div>
+</header>
+
+<!-- SEARCH RESULTS -->
+<div id="searchResults">
+  <div class="search-results-inner">
+    <div class="search-results-header">
+      <span id="searchCount">0 results</span>
+      <button class="search-close" onclick="closeSearch()">✕</button>
+    </div>
+    <div id="searchResultsList"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">U.S. Commercial Real Estate</div>
+    <h1>Market Intelligence<br><em>Report · Q1 2026</em></h1>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <span class="hero-stat-value">7 Sectors</span>
+        <span class="hero-stat-label">Covered</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">$171.6B</span>
+        <span class="hero-stat-label">Q4 2025 CRE Investment</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">12.34%</span>
+        <span class="hero-stat-label">Office CMBS Delinquency</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-value">+29%</span>
+        <span class="hero-stat-label">CRE Investment QoQ</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUMMARY STRIP -->
+<div class="summary-strip">
+  <div class="summary-strip-inner">
+    <div class="sum-card">
+      <div class="sc-label">Office Vacancy</div>
+      <div class="sc-value">20.5%</div>
+      <span class="sc-change up">▲ 30bps YoY</span>
+    </div>
+    <div class="sum-card">
+      <div class="sc-label">Retail Availability</div>
+      <div class="sc-value">4.8%</div>
+      <span class="sc-change down">▼ Near Historic Low</span>
+    </div>
+    <div class="sum-card">
+      <div class="sc-label">Industrial Vacancy</div>
+      <div class="sc-value">7.1–7.4%</div>
+      <span class="sc-change neutral">→ Near Peak</span>
+    </div>
+    <div class="sum-card">
+      <div class="sc-label">CMBS Delinquency</div>
+      <div class="sc-value">7.47%</div>
+      <span class="sc-change up">▲ 17bps MoM</span>
+    </div>
+    <div class="sum-card">
+      <div class="sc-label">Hotel RevPAR 2026F</div>
+      <div class="sc-value">+0.9%</div>
+      <span class="sc-change down">▼ Modest Recovery</span>
+    </div>
+    <div class="sum-card">
+      <div class="sc-label">CRE Investment Q4</div>
+      <div class="sc-value">$171.6B</div>
+      <span class="sc-change down">▲ 29% QoQ</span>
+    </div>
+    <div class="sum-card">
+      <div class="sc-label">Office CMBS Delinq.</div>
+      <div class="sc-value">12.34%</div>
+      <span class="sc-change up">▲ All-Time High</span>
+    </div>
+    <div class="sum-card">
+      <div class="sc-label">Industrial Absorp.</div>
+      <div class="sc-value">176.8 MSF</div>
+      <span class="sc-change down">▲ 16.3% YoY</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-nav">
+      <div class="sidebar-section-label">Sections</div>
+      <a href="#executive" class="active"><span class="nav-icon">📊</span> Executive Summary</a>
+      <a href="#office"><span class="nav-icon">🏢</span> Office Market</a>
+      <a href="#retail"><span class="nav-icon">🛍️</span> Retail Market</a>
+      <a href="#logistics"><span class="nav-icon">📦</span> Logistics & Industrial</a>
+      <a href="#hotels"><span class="nav-icon">🏨</span> Hotels & Hospitality</a>
+      <a href="#cmbs"><span class="nav-icon">📉</span> CMBS & Debt</a>
+      <a href="#capital"><span class="nav-icon">💼</span> Capital Markets</a>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- ── EXECUTIVE SUMMARY ── -->
+    <section class="content-section animate-in" id="executive">
+      <div class="section-header">
+        <div class="section-icon icon-executive">📊</div>
+        <div class="section-title-group">
+          <h2>Executive Summary</h2>
+          <p>Sector-wide performance snapshot · Q1 2026</p>
+        </div>
+      </div>
+
+      <div class="highlight-band delay-1 animate-in">
+        <div class="hb-card blue">
+          <span class="hb-label">CRE Investment Q4 2025</span>
+          <span class="hb-value">$171.6B</span>
+          <span class="hb-detail">▲ 29% QoQ — CBRE</span>
+        </div>
+        <div class="hb-card amber">
+          <span class="hb-label">Office CMBS Delinquency</span>
+          <span class="hb-value">12.34%</span>
+          <span class="hb-detail">All-Time High — Trepp Jan 2026</span>
+        </div>
+        <div class="hb-card green">
+          <span class="hb-label">Industrial Net Absorption</span>
+          <span class="hb-value">176.8M SF</span>
+          <span class="hb-detail">▲ 16.3% YoY — Cushman & Wakefield</span>
+        </div>
+      </div>
+
+      <div class="prose delay-2 animate-in">
+        <p>The U.S. commercial real estate market enters Q1 2026 at a <strong>critical inflection point</strong>. After years of post-pandemic recalibration, multiple sectors show simultaneous recovery signals — yet deep structural challenges persist, particularly in office CMBS. CRE investment surged 29% in Q4 2025 to $171.6 billion (CBRE), signaling improving confidence across the capital stack.</p>
+        <p>The office sector is showing its clearest recovery signals since 2020, while retail remains near historic vacancy lows. Industrial is entering a new expansion cycle after a supply correction. Hotels face a modest RevPAR recovery in 2026 after the first decline since 2020. CMBS delinquencies are expected to peak in 2026 before normalizing.</p>
+      </div>
+
+      <div class="data-table-wrap delay-3 animate-in">
+        <div class="data-table-toolbar">
+          <span class="data-table-title">Full Cross-Sector KPI Dashboard</span>
+          <input class="table-search-input" type="text" placeholder="Filter metrics…" oninput="filterTable(this, 'execTable')">
+        </div>
+        <div style="overflow-x:auto">
+        <table class="data-table" id="execTable">
+          <thead><tr><th>Metric</th><th>Current Value</th><th>Change</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td>Office Vacancy (National)</td><td>20.5%</td><td class="td-up">▲ 30 bps YoY (slowing)</td><td class="td-src">Cushman & Wakefield</td></tr>
+            <tr><td>Office Net Absorption (H2 2025)</td><td>+2.5 MSF</td><td class="td-down">First positive H2 since pre-COVID</td><td class="td-src">Cushman & Wakefield</td></tr>
+            <tr><td>Office Annual Leasing Activity</td><td>Post-pandemic high</td><td class="td-down">▲ 5.2% YoY</td><td class="td-src">JLL</td></tr>
+            <tr><td>Retail Availability (NCC)</td><td>4.8%</td><td class="td-down">Near historic low</td><td class="td-src">CBRE Q4 2025</td></tr>
+            <tr><td>Shopping Center Vacancy</td><td>5.7%</td><td class="td-up">▲ 40 bps YoY (tariff impact)</td><td class="td-src">Cushman & Wakefield</td></tr>
+            <tr><td>Industrial Vacancy (US)</td><td>7.1–7.4%</td><td class="td-neutral">Peaking; expected to ease</td><td class="td-src">Prologis / C&W</td></tr>
+            <tr><td>Industrial Net Absorption (2025)</td><td>176.8 MSF</td><td class="td-down">▲ 16.3% YoY</td><td class="td-src">Cushman & Wakefield</td></tr>
+            <tr><td>CMBS Delinquency Rate (Jan 2026)</td><td>7.47%</td><td class="td-up">▲ 17 bps MoM</td><td class="td-src">Trepp</td></tr>
+            <tr><td>Office CMBS Delinquency (Jan 2026)</td><td>12.34%</td><td class="td-up">All-time high</td><td class="td-src">Trepp</td></tr>
+            <tr><td>Hotel RevPAR (2025 actual)</td><td>−0.4%</td><td class="td-up">First decline since 2020</td><td class="td-src">PwC / CoStar</td></tr>
+            <tr><td>Hotel RevPAR Forecast (2026)</td><td>+0.5–0.9%</td><td class="td-down">Modest recovery</td><td class="td-src">PwC / CoStar</td></tr>
+            <tr><td>CRE Investment (Q4 2025)</td><td>$171.6B</td><td class="td-down">▲ 29% QoQ</td><td class="td-src">CBRE</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="chart-grid delay-4 animate-in">
+        <div class="chart-card">
+          <div class="chart-card-title">Sector CMBS Delinquency Rates — Jan 2026</div>
+          <div class="chart-card-sub">Source: Trepp, January 2026</div>
+          <div class="chart-container"><canvas id="cmbs_overview_chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">CRE Investment Activity ($B Quarterly)</div>
+          <div class="chart-card-sub">Source: CBRE, Q4 2025</div>
+          <div class="chart-container"><canvas id="investment_trend_chart"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── OFFICE ── -->
+    <section class="content-section animate-in" id="office">
+      <div class="section-header">
+        <div class="section-icon icon-office">🏢</div>
+        <div class="section-title-group">
+          <h2>Office Market</h2>
+          <p>Vacancy stabilizing · Leasing at post-pandemic highs · CMBS under stress</p>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">National Vacancy Rate</div><div class="kpi-value">20.5%</div><span class="kpi-change up">▲ 30 bps YoY</span><div class="kpi-source">Cushman & Wakefield</div></div>
+        <div class="kpi-card"><div class="kpi-label">H2 2025 Net Absorption</div><div class="kpi-value">+2.5 MSF</div><span class="kpi-change down">First positive H2</span><div class="kpi-source">C&W YE 2025</div></div>
+        <div class="kpi-card"><div class="kpi-label">Sublease Decline vs Peak</div><div class="kpi-value">−20%</div><span class="kpi-change down">From Q1 2024 peak</span><div class="kpi-source">Cushman & Wakefield</div></div>
+        <div class="kpi-card"><div class="kpi-label">Annual Leasing Growth</div><div class="kpi-value">+5.2%</div><span class="kpi-change down">YoY — record post-COVID</span><div class="kpi-source">JLL Q4 2025</div></div>
+        <div class="kpi-card"><div class="kpi-label">Markets w/ Positive Absorption</div><div class="kpi-value">50</div><span class="kpi-change down">Up from 33 in 2024</span><div class="kpi-source">Cushman & Wakefield</div></div>
+        <div class="kpi-card"><div class="kpi-label">Completions Fall (2026)</div><div class="kpi-value">−75%</div><span class="kpi-change down">75% pre-leased</span><div class="kpi-source">JLL Global Outlook</div></div>
+        <div class="kpi-card"><div class="kpi-label">Large Deals Growth (100k+ SF)</div><div class="kpi-value">~+15%</div><span class="kpi-change down">YoY in 2025</span><div class="kpi-source">JLL Q4 2025</div></div>
+        <div class="kpi-card"><div class="kpi-label">Office CMBS Delinquency</div><div class="kpi-value">12.34%</div><span class="kpi-change up">All-time high</span><div class="kpi-source">Trepp Jan 2026</div></div>
+      </div>
+
+      <div class="callout">"The tide is turning — national net absorption hit +2.5 million sq ft in H2 2025, and demand turned positive in over half of U.S. office markets." — Cushman & Wakefield, Jan. 2026</div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-card-title">Office Vacancy Rate Trend</div>
+          <div class="chart-card-sub">National average — Source: Cushman & Wakefield / JLL</div>
+          <div class="chart-container"><canvas id="office_vacancy_chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Top Markets by 2025 Net Absorption (MSF)</div>
+          <div class="chart-card-sub">Source: Cushman & Wakefield YE 2025</div>
+          <div class="chart-container"><canvas id="office_absorption_chart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="bullet-list">
+        <ul>
+          <li>Vacancy declined in <strong>half of all U.S. markets</strong> over the past 12 months, including in 17 markets by over 100 basis points</li>
+          <li>NYC Midtown led absorption with <strong>+6.1 MSF</strong>, followed by San Jose (+3.1 MSF), Dallas (+2.2 MSF), and Northern New Jersey (+1.6 MSF)</li>
+          <li>The office construction pipeline is now <strong>20% below previous historic lows</strong> measured in 2011 (JLL)</li>
+          <li>Sublease space declined to <strong>108.6 MSF</strong>, down 20% from Q1 2024 peak, with YoY declines in 60%+ of U.S. markets</li>
+          <li>Tier 2 rental rates rose <strong>2.1%</strong> over the past year — flight-to-quality accelerating bifurcation</li>
+          <li>North American flex office market projected to grow from <strong>$14.9B in 2025 to $28.9B by 2030</strong></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── RETAIL ── -->
+    <section class="content-section animate-in" id="retail">
+      <div class="section-header">
+        <div class="section-icon icon-retail">🛍️</div>
+        <div class="section-title-group">
+          <h2>Retail Market</h2>
+          <p>Near historic vacancy lows · Grocery-anchored strength · Tariff caution</p>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">Retail Availability Rate</div><div class="kpi-value">4.8%</div><span class="kpi-change down">Near historic low</span><div class="kpi-source">CBRE Q4 2025</div></div>
+        <div class="kpi-card"><div class="kpi-label">NCC Vacancy (Q1 2025)</div><div class="kpi-value">5.6%</div><span class="kpi-change down">Near record low</span><div class="kpi-source">CBRE Investment Mgmt</div></div>
+        <div class="kpi-card"><div class="kpi-label">Shopping Center Vacancy</div><div class="kpi-value">5.7%</div><span class="kpi-change up">▲ 40 bps (tariff-driven)</span><div class="kpi-source">Cushman & Wakefield</div></div>
+        <div class="kpi-card"><div class="kpi-label">Net Absorption (Q4 2025)</div><div class="kpi-value">11.3 MSF</div><span class="kpi-change down">Strong quarter</span><div class="kpi-source">CBRE</div></div>
+        <div class="kpi-card"><div class="kpi-label">5-Yr NCC Rent Growth</div><div class="kpi-value">+3.1% p.a.</div><span class="kpi-change down">Above-trend forecast</span><div class="kpi-source">CoStar / CBRE IM</div></div>
+        <div class="kpi-card"><div class="kpi-label">Retail CMBS Delinquency</div><div class="kpi-value">7.04%</div><span class="kpi-change up">▲ 12 bps MoM</span><div class="kpi-source">Trepp Jan 2026</div></div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-card-title">Retail Vacancy vs. Shopping Center Vacancy</div>
+          <div class="chart-card-sub">Annual trend — Source: CBRE, Cushman & Wakefield</div>
+          <div class="chart-container"><canvas id="retail_vacancy_chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Retail Performance by Format (2025 Relative Index)</div>
+          <div class="chart-card-sub">Source: CBRE 2026 Outlook</div>
+          <div class="chart-container"><canvas id="retail_format_chart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="bullet-list">
+        <ul>
+          <li><strong>Grocery-anchored and neighborhood/strip centers</strong> are expected to outperform — necessity-driven demand, near-zero new supply</li>
+          <li>Experiential retail ("retailtainment") is the dominant strategy — AR, dining integrations, immersive events to drive in-store traffic</li>
+          <li>Weaker malls and older power centers continue lagging — higher capex, wider availability gap vs. quality assets</li>
+          <li>Strong suburban submarkets and <strong>high-income corridors</strong> will see outperformance in 2026</li>
+          <li>Tenants taking longer to decide → increasing TI allowance and concession activity</li>
+          <li>Sun Belt markets driving new retail construction; net absorption concentrated in Sunbelt and growth metros</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── LOGISTICS ── -->
+    <section class="content-section animate-in" id="logistics">
+      <div class="section-header">
+        <div class="section-icon icon-logistics">📦</div>
+        <div class="section-title-group">
+          <h2>Logistics & Industrial</h2>
+          <p>New expansion cycle · Supply at decade lows · Rent inflection forming</p>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">US Industrial Vacancy YE 2025</div><div class="kpi-value">7.1–7.4%</div><span class="kpi-change neutral">→ Likely at peak</span><div class="kpi-source">Prologis / C&W</div></div>
+        <div class="kpi-card"><div class="kpi-label">Net Absorption 2025</div><div class="kpi-value">176.8 MSF</div><span class="kpi-change down">▲ 16.3% YoY</span><div class="kpi-source">Cushman & Wakefield</div></div>
+        <div class="kpi-card"><div class="kpi-label">Net Absorption Forecast 2026</div><div class="kpi-value">200 MSF</div><span class="kpi-change down">Strongest since 2022</span><div class="kpi-source">Prologis</div></div>
+        <div class="kpi-card"><div class="kpi-label">US Completions 2026</div><div class="kpi-value">180 MSF</div><span class="kpi-change down">Decade low</span><div class="kpi-source">Prologis</div></div>
+        <div class="kpi-card"><div class="kpi-label">US Rent Change 2025</div><div class="kpi-value">−4.5% YoY</div><span class="kpi-change up">Coastal: −7.6%</span><div class="kpi-source">Prologis</div></div>
+        <div class="kpi-card"><div class="kpi-label">Asking Rent Growth Q4</div><div class="kpi-value">+1.5% YoY</div><span class="kpi-change neutral">Lowest since Q1 2020</span><div class="kpi-source">C&W Q4 2025</div></div>
+        <div class="kpi-card"><div class="kpi-label">Prologis IBI Activity Index</div><div class="kpi-value">59.1</div><span class="kpi-change down">Highest since Nov 2024</span><div class="kpi-source">Prologis IBI Jan 2026</div></div>
+        <div class="kpi-card"><div class="kpi-label">Prologis Mark-to-Market</div><div class="kpi-value">18%</div><span class="kpi-change down">~$800M unrealized NOI</span><div class="kpi-source">Prologis</div></div>
+      </div>
+
+      <div class="callout">"Supply has eased, demand is accelerating and broadening, and the bottom for rents is forming." — Prologis Research, Jan. 2026</div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-card-title">US Industrial Vacancy Rate (2020–2026F)</div>
+          <div class="chart-card-sub">Source: Prologis / Cushman & Wakefield</div>
+          <div class="chart-container"><canvas id="industrial_vacancy_chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Net Absorption vs. New Supply (MSF)</div>
+          <div class="chart-card-sub">Source: Cushman & Wakefield / Prologis</div>
+          <div class="chart-container"><canvas id="industrial_supply_chart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="bullet-list">
+        <ul>
+          <li><strong>E-commerce</strong> accounted for 20% of Prologis new leasing in 2025 — its best since 2021; expected to reach 25% in 2026</li>
+          <li>Replacement costs <strong>exceed market rents by ~20%</strong>, limiting speculative starts — most new supply is build-to-suit</li>
+          <li>Warehouse utilization around <strong>85%</strong> in H2 2025 — just below the historical expansionary threshold</li>
+          <li>Scarcity emerging in <strong>mid-size spaces (100k–300k SF)</strong> in supply-constrained markets</li>
+          <li>Prologis allocating <strong>40% of its development pipeline</strong> to data centers — a strategic pivot toward AI infrastructure</li>
+          <li>Defense-related demand expected to breathe new life into older industrial corridors</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── HOTELS ── -->
+    <section class="content-section animate-in" id="hotels">
+      <div class="section-header">
+        <div class="section-icon icon-hotels">🏨</div>
+        <div class="section-title-group">
+          <h2>Hotels & Hospitality</h2>
+          <p>RevPAR recovery · Luxury/economy bifurcation · FIFA World Cup catalyst</p>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">RevPAR 2025 (Actual)</div><div class="kpi-value">−0.4%</div><span class="kpi-change up">First decline since 2020</span><div class="kpi-source">CoStar / PwC</div></div>
+        <div class="kpi-card"><div class="kpi-label">RevPAR Forecast 2026</div><div class="kpi-value">+0.5–0.9%</div><span class="kpi-change down">Modest recovery</span><div class="kpi-source">CoStar / PwC</div></div>
+        <div class="kpi-card"><div class="kpi-label">ADR Forecast 2026</div><div class="kpi-value">+1.0–1.1%</div><span class="kpi-change down">Modest growth</span><div class="kpi-source">CoStar / PwC</div></div>
+        <div class="kpi-card"><div class="kpi-label">Occupancy Forecast 2026</div><div class="kpi-value">~62.1%</div><span class="kpi-change up">Slight dip expected</span><div class="kpi-source">CoStar / PwC</div></div>
+        <div class="kpi-card"><div class="kpi-label">Luxury RevPAR YTD (mid-2025)</div><div class="kpi-value">+5.3%</div><span class="kpi-change down">ADR-driven</span><div class="kpi-source">STR / PwC</div></div>
+        <div class="kpi-card"><div class="kpi-label">Economy RevPAR YTD</div><div class="kpi-value">−1.8%</div><span class="kpi-change up">Demand pressure</span><div class="kpi-source">STR / PwC</div></div>
+        <div class="kpi-card"><div class="kpi-label">Transaction Volume 2025</div><div class="kpi-value">~$29.2B</div><span class="kpi-change neutral">Flat vs. 2024</span><div class="kpi-source">LWHA</div></div>
+        <div class="kpi-card"><div class="kpi-label">Lodging CMBS Delinquency</div><div class="kpi-value">5.56%</div><span class="kpi-change down">▼ 105 bps MoM</span><div class="kpi-source">Trepp Jan 2026</div></div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-card-title">RevPAR Performance by Chain Scale (Index)</div>
+          <div class="chart-card-sub">Source: STR / PwC / ULI Hospitality Directions 2026</div>
+          <div class="chart-container"><canvas id="hotel_revpar_chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">Hotel RevPAR Annual Change (%)</div>
+          <div class="chart-card-sub">Source: CoStar, PwC, STR</div>
+          <div class="chart-container"><canvas id="hotel_annual_chart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="bullet-list">
+        <ul>
+          <li>The <strong>2026 FIFA World Cup</strong> (11 U.S. host cities) is the most significant near-term demand catalyst — compression nights and ADR growth expected across host markets</li>
+          <li>PwC anticipates <strong>H1 2026 headwinds</strong> followed by acceleration in H2 2026 as group and international travel rebounds</li>
+          <li>Marriott launched <strong>'Series by Marriott'</strong> and 'Outdoor Collection'; Hilton launched <strong>'Outset Collection'</strong> with 60+ properties in pipeline</li>
+          <li>AI adoption accelerating for <strong>dynamic pricing, staffing optimization</strong>, and real-time revenue management</li>
+          <li>Crexi reports <strong>11% QoQ increase in platform leads</strong> in Q3 2025; YoY lead gen up 20%</li>
+          <li>Limited-service hotels trading at <strong>$75k–$90k per key</strong> vs. $150k+ replacement cost — significant downside protection for buyers</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── CMBS ── -->
+    <section class="content-section animate-in" id="cmbs">
+      <div class="section-header">
+        <div class="section-icon icon-cmbs">📉</div>
+        <div class="section-title-group">
+          <h2>CMBS & Debt Markets</h2>
+          <p>Office delinquency at all-time highs · $25B past maturity · 2026 expected peak</p>
+        </div>
+      </div>
+
+      <div class="highlight-band">
+        <div class="hb-card red">
+          <span class="hb-label">Overall CMBS Delinquency</span>
+          <span class="hb-value">7.47%</span>
+          <span class="hb-detail">▲ 17 bps MoM / +91 bps YoY · Trepp</span>
+        </div>
+        <div class="hb-card red">
+          <span class="hb-label">Office CMBS Delinquency</span>
+          <span class="hb-value">12.34%</span>
+          <span class="hb-detail">All-time high · Trepp Jan 2026</span>
+        </div>
+        <div class="hb-card navy">
+          <span class="hb-label">CMBS Special Servicing</span>
+          <span class="hb-value">10.91%</span>
+          <span class="hb-detail">▲ 20 bps MoM · Trepp Jan 2026</span>
+        </div>
+      </div>
+
+      <div class="callout">"More than half of the roughly $100B in securitized commercial mortgages due in 2026 are unlikely to pay off at maturity." — Morningstar DBRS, Jan. 2026</div>
+
+      <div class="delinquency-bars">
+        <h4 style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:1rem;">CMBS Delinquency by Sector — January 2026 (Trepp)</h4>
+        <div class="dq-row">
+          <div class="dq-sector">Office</div>
+          <div class="dq-bar-wrap"><div class="dq-bar" style="width:0%;background:#C94040;" data-target="82"></div></div>
+          <div class="dq-pct">12.34%</div>
+          <div class="dq-chg td-up">▲ 47bps</div>
+        </div>
+        <div class="dq-row">
+          <div class="dq-sector">Overall</div>
+          <div class="dq-bar-wrap"><div class="dq-bar" style="width:0%;background:#1E5FA8;" data-target="50"></div></div>
+          <div class="dq-pct">7.47%</div>
+          <div class="dq-chg td-up">▲ 17bps</div>
+        </div>
+        <div class="dq-row">
+          <div class="dq-sector">Retail</div>
+          <div class="dq-bar-wrap"><div class="dq-bar" style="width:0%;background:#E07A1F;" data-target="47"></div></div>
+          <div class="dq-pct">7.04%</div>
+          <div class="dq-chg td-up">▲ 12bps</div>
+        </div>
+        <div class="dq-row">
+          <div class="dq-sector">Multifamily</div>
+          <div class="dq-bar-wrap"><div class="dq-bar" style="width:0%;background:#8B5CF6;" data-target="46"></div></div>
+          <div class="dq-pct">6.94%</div>
+          <div class="dq-chg td-up">▲ 30bps</div>
+        </div>
+        <div class="dq-row">
+          <div class="dq-sector">Lodging</div>
+          <div class="dq-bar-wrap"><div class="dq-bar" style="width:0%;background:#2D9E6B;" data-target="37"></div></div>
+          <div class="dq-pct">5.56%</div>
+          <div class="dq-chg td-down">▼ 105bps</div>
+        </div>
+        <div class="dq-row">
+          <div class="dq-sector">Industrial</div>
+          <div class="dq-bar-wrap"><div class="dq-bar" style="width:0%;background:#4A9FDB;" data-target="4"></div></div>
+          <div class="dq-pct">0.62%</div>
+          <div class="dq-chg td-down">▼ 18bps</div>
+        </div>
+      </div>
+
+      <div class="data-table-wrap">
+        <div class="data-table-toolbar">
+          <span class="data-table-title">CMBS Metrics Detail</span>
+          <input class="table-search-input" type="text" placeholder="Filter…" oninput="filterTable(this, 'cmbsTable')">
+        </div>
+        <div style="overflow-x:auto">
+        <table class="data-table" id="cmbsTable">
+          <thead><tr><th>Metric</th><th>Value</th><th>MoM Change</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td>Overall CMBS Delinquency</td><td>7.47%</td><td class="td-up">▲ 17 bps</td><td class="td-src">Trepp Jan 2026</td></tr>
+            <tr><td>CMBS Special Servicing Rate</td><td>10.91%</td><td class="td-up">▲ 20 bps</td><td class="td-src">Trepp Jan 2026</td></tr>
+            <tr><td>Office CMBS Delinquency</td><td>12.34%</td><td class="td-up">▲ All-time high</td><td class="td-src">Trepp Jan 2026</td></tr>
+            <tr><td>Office Special Servicing</td><td>17.11%</td><td class="td-up">▲ 47 bps</td><td class="td-src">Trepp Jan 2026</td></tr>
+            <tr><td>Retail CMBS Delinquency</td><td>7.04%</td><td class="td-up">▲ 12 bps</td><td class="td-src">Trepp Jan 2026</td></tr>
+            <tr><td>Lodging CMBS Delinquency</td><td>5.56%</td><td class="td-down">▼ 105 bps</td><td class="td-src">Trepp Jan 2026</td></tr>
+            <tr><td>Multifamily CMBS Delinquency</td><td>6.94%</td><td class="td-up">▲ 30 bps</td><td class="td-src">Trepp Jan 2026</td></tr>
+            <tr><td>Industrial CMBS Delinquency</td><td>0.62%</td><td class="td-down">▼ 18 bps</td><td class="td-src">Trepp Jan 2026</td></tr>
+            <tr><td>CMBS Past Maturity (unresolved)</td><td>~$25B</td><td class="td-neutral">Post-2008 levels</td><td class="td-src">Trepp</td></tr>
+            <tr><td>CRE Loans Maturing in 2026</td><td>$875B</td><td class="td-down">▼ 9% vs. 2025</td><td class="td-src">MBA</td></tr>
+            <tr><td>CRED iQ Combined Distress Rate</td><td>11.98%</td><td class="td-up">+148% over 43 months</td><td class="td-src">CRED iQ Jan 2026</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CAPITAL MARKETS ── -->
+    <section class="content-section animate-in" id="capital">
+      <div class="section-header">
+        <div class="section-icon icon-capital">💼</div>
+        <div class="section-title-group">
+          <h2>Capital Markets & Investment</h2>
+          <p>29% QoQ surge · Liquidity improving · Data centers dominate allocations</p>
+        </div>
+      </div>
+
+      <div class="kpi-grid">
+        <div class="kpi-card"><div class="kpi-label">CRE Investment Q4 2025</div><div class="kpi-value">$171.6B</div><span class="kpi-change down">▲ 29% QoQ</span><div class="kpi-source">CBRE</div></div>
+        <div class="kpi-card"><div class="kpi-label">Office Sales Volume 2025</div><div class="kpi-value">▲ 35% YoY</div><span class="kpi-change down">7 consec. increases</span><div class="kpi-source">JLL</div></div>
+        <div class="kpi-card"><div class="kpi-label">NYC Investment Q4 2025</div><div class="kpi-value">$10.0B</div><span class="kpi-change down">Highest since Q2 2022</span><div class="kpi-source">Cushman & Wakefield</div></div>
+        <div class="kpi-card"><div class="kpi-label">Fannie/Freddie Caps 2026</div><div class="kpi-value">$88B ea.</div><span class="kpi-change down">Up from $73B</span><div class="kpi-source">Fannie / Freddie</div></div>
+        <div class="kpi-card"><div class="kpi-label">CRE Maturities 2026</div><div class="kpi-value">$875B</div><span class="kpi-change down">▼ 9% vs. $957B</span><div class="kpi-source">MBA</div></div>
+        <div class="kpi-card"><div class="kpi-label">Prologis Dev. Pipeline DC%</div><div class="kpi-value">40%</div><span class="kpi-change down">AI infrastructure pivot</span><div class="kpi-source">Prologis</div></div>
+      </div>
+
+      <div class="chart-grid">
+        <div class="chart-card">
+          <div class="chart-card-title">Sector Allocation Outlook 2026 (Investor Preference)</div>
+          <div class="chart-card-sub">Source: JLL, CBRE, PwC/ULI Emerging Trends 2026</div>
+          <div class="chart-container"><canvas id="capital_allocation_chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-title">CRE Maturity Wall ($B) — 2024–2027</div>
+          <div class="chart-card-sub">Source: Mortgage Bankers Association</div>
+          <div class="chart-container"><canvas id="maturity_wall_chart"></canvas></div>
+        </div>
+      </div>
+
+      <div class="bullet-list">
+        <ul>
+          <li><strong>Data Centers</strong> remain the standout growth story — global capacity forecast to increase 19% in 2026 as hyperscalers commit record capital</li>
+          <li><strong>Multifamily</strong> continues attracting capital despite 9.3% vacancy (record), as construction pipelines fall 50% from cycle peak</li>
+          <li><strong>Industrial & Logistics</strong> entering expansion cycle — Prologis embedded mark-to-market of 18% = ~$800M unrealized NOI</li>
+          <li>"The credit markets are extremely liquid, with all lender groups active" — ULI Capital Markets Survey, Feb. 2026</li>
+          <li>Federal Reserve rate cuts have improved cap rate dynamics and LTV ratios across property sectors</li>
+          <li>Tariff uncertainty that weighed on industrial/retail in H1 2025 has eased, allowing paused decisions to advance</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-left">
+      <h3>U.S. CRE Market Intelligence Report · Q1 2026</h3>
+      <p>Data aggregated from leading commercial real estate research providers. All figures from publicly available sources as of March 2026. For informational purposes only — not investment advice.</p>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:0.6rem;">Data Sources</div>
+      <div class="footer-sources">
+        <span class="fsrc">Cushman & Wakefield</span>
+        <span class="fsrc">JLL</span>
+        <span class="fsrc">CBRE</span>
+        <span class="fsrc">Trepp</span>
+        <span class="fsrc">Prologis</span>
+        <span class="fsrc">PwC / ULI</span>
+        <span class="fsrc">CoStar / STR</span>
+        <span class="fsrc">Morningstar DBRS</span>
+        <span class="fsrc">MBA</span>
+        <span class="fsrc">CRED iQ</span>
+        <span class="fsrc">LWHA</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── SEARCH DATA ──
+const searchIndex = [
+  { section: "Executive Summary", anchor: "#executive", title: "CRE Investment Q4 2025", text: "US CRE investment surged 29% QoQ to $171.6 billion in Q4 2025 according to CBRE." },
+  { section: "Executive Summary", anchor: "#executive", title: "Overall CMBS Delinquency", text: "The overall CMBS delinquency rate reached 7.47% in January 2026, up 91 bps year-over-year per Trepp." },
+  { section: "Executive Summary", anchor: "#executive", title: "Industrial Net Absorption", text: "Industrial net absorption hit 176.8 MSF in 2025, up 16.3% YoY per Cushman & Wakefield." },
+  { section: "Office Market", anchor: "#office", title: "Office Vacancy Rate", text: "The national office vacancy rate closed 2025 at 20.5%, up 30 basis points year-over-year — the smallest annual increase in five-and-a-half years (Cushman & Wakefield)." },
+  { section: "Office Market", anchor: "#office", title: "Office Net Absorption", text: "H2 2025 saw +2.5 MSF positive net absorption — the first positive H2 since pre-COVID. Fifty markets posted positive absorption in 2025." },
+  { section: "Office Market", anchor: "#office", title: "Office Leasing Activity", text: "Q4 2025 leasing activity hit a post-pandemic high. Annual leasing grew 5.2% YoY with large-scale transactions (100k+ SF) up ~15% per JLL." },
+  { section: "Office Market", anchor: "#office", title: "Sublease Space Decline", text: "Sublease space declined 20% from Q1 2024 peak to 108.6 MSF, with YoY declines in over 60% of US markets." },
+  { section: "Office Market", anchor: "#office", title: "Office Supply Pipeline", text: "The office construction pipeline is 20% below previous historic lows from 2011. Completions set to fall 75% in 2026, with 75% already pre-leased (JLL)." },
+  { section: "Office Market", anchor: "#office", title: "NYC Midtown Absorption", text: "Midtown Manhattan led all markets with +6.1 MSF net absorption in 2025, followed by San Jose (+3.1 MSF) and Dallas (+2.2 MSF)." },
+  { section: "Office Market", anchor: "#office", title: "Flex Office Growth", text: "North American flex office market expected to grow from $14.9 billion in 2025 to $28.9 billion by 2030." },
+  { section: "Retail Market", anchor: "#retail", title: "Retail Availability Rate", text: "Retail availability tightened to 4.8% in Q4 2025 — near historic lows — as net absorption hit 11.3 MSF per CBRE." },
+  { section: "Retail Market", anchor: "#retail", title: "Shopping Center Vacancy", text: "Shopping center vacancy reached 5.7% at year-end 2025, up 40 bps from tariff-driven headwinds in H1 2025 per Cushman & Wakefield." },
+  { section: "Retail Market", anchor: "#retail", title: "Grocery-Anchored Retail", text: "Grocery-anchored and neighborhood/strip centers are expected to outperform on occupancy and rent growth due to necessity-driven demand and near-zero new supply." },
+  { section: "Retail Market", anchor: "#retail", title: "NCC Rent Growth Forecast", text: "Five-year NCC rent growth forecast is +3.1% per annum — above-trend growth per CoStar / CBRE Investment Management." },
+  { section: "Logistics & Industrial", anchor: "#logistics", title: "Industrial Vacancy", text: "US industrial vacancy ended 2025 at 7.1–7.4% per Prologis and Cushman & Wakefield — likely at or near peak." },
+  { section: "Logistics & Industrial", anchor: "#logistics", title: "Prologis IBI Survey", text: "The Prologis IBI Activity Index rose to 59.1 in January 2026 — its highest level since November 2024, signaling accelerating demand." },
+  { section: "Logistics & Industrial", anchor: "#logistics", title: "Industrial Completions 2026", text: "US industrial completions forecast at 180 MSF in 2026 — a decade low — with replacement costs 20% above market rents limiting speculative starts." },
+  { section: "Logistics & Industrial", anchor: "#logistics", title: "E-commerce Leasing", text: "E-commerce accounted for 20% of Prologis new leasing in 2025 and is expected to approach 25% in 2026." },
+  { section: "Logistics & Industrial", anchor: "#logistics", title: "Data Center Allocation", text: "Prologis is allocating 40% of its $4–5B development pipeline to data centers — a strategic pivot to capture AI infrastructure demand." },
+  { section: "Hotels & Hospitality", anchor: "#hotels", title: "RevPAR 2025", text: "US hotel RevPAR declined 0.4% in 2025 — the first decline since 2020 per CoStar and PwC." },
+  { section: "Hotels & Hospitality", anchor: "#hotels", title: "RevPAR Forecast 2026", text: "PwC forecasts RevPAR growth of +0.9% for full-year 2026; CoStar and Tourism Economics project +0.5–0.6%." },
+  { section: "Hotels & Hospitality", anchor: "#hotels", title: "Luxury vs Economy Hotels", text: "Luxury segment RevPAR was up 5.3% YTD mid-2025 while economy segment was down 1.8% — sharp bifurcation per STR/PwC." },
+  { section: "Hotels & Hospitality", anchor: "#hotels", title: "FIFA World Cup 2026", text: "The 2026 FIFA World Cup with 11 US host cities is the most significant near-term demand catalyst for US hotels, driving compression nights and ADR growth." },
+  { section: "Hotels & Hospitality", anchor: "#hotels", title: "Hotel Transactions", text: "Transaction volume was ~$29.2B in 2025 flat versus 2024. Limited-service hotels trading at $75k–$90k per key vs. $150k+ replacement cost per LWHA." },
+  { section: "CMBS & Debt", anchor: "#cmbs", title: "Office CMBS All-Time High", text: "The office CMBS delinquency rate hit an all-time high of 12.34% in January 2026. Office special servicing reached 17.11% per Trepp." },
+  { section: "CMBS & Debt", anchor: "#cmbs", title: "One New York Plaza", text: "The $835M One New York Plaza loan transferred to special servicing for imminent monetary default before being modified and extended to January 2028." },
+  { section: "CMBS & Debt", anchor: "#cmbs", title: "Maturity Payoff Risk", text: "More than half of the ~$100B in securitized commercial mortgages due in 2026 are unlikely to pay off at maturity per Morningstar DBRS." },
+  { section: "CMBS & Debt", anchor: "#cmbs", title: "Past Maturity Loans", text: "Approximately $25 billion in CMBS loans are now past maturity without repayment, liquidation, or formal extension — levels not seen since post-2008." },
+  { section: "CMBS & Debt", anchor: "#cmbs", title: "CRED iQ Distress Rate", text: "CRED iQ reports a combined distress rate of 11.98% as of January 2026 — a 148% increase over 43 months." },
+  { section: "Capital Markets", anchor: "#capital", title: "CRE Investment Surge", text: "US CRE investment surged 29% QoQ to $171.6 billion in Q4 2025. NYC investment hit $10.0B — highest since Q2 2022 per Cushman & Wakefield." },
+  { section: "Capital Markets", anchor: "#capital", title: "Office Investment Recovery", text: "For seven consecutive quarters, US office sales volume increased year-over-year. Total office transaction volume grew 35% in 2025 per JLL." },
+  { section: "Capital Markets", anchor: "#capital", title: "Multifamily Agency Caps", text: "Fannie Mae and Freddie Mac raised multifamily loan purchase caps to $88 billion each for 2026, up from $73 billion." },
+  { section: "Capital Markets", anchor: "#capital", title: "Maturity Wall 2026", text: "$875 billion in CRE loans mature in 2026 — a 9% dip from 2025's $957 billion. The wall of maturities is past peak per MBA." },
+  { section: "Capital Markets", anchor: "#capital", title: "Data Centers", text: "Global data center capacity forecast to increase 19% in 2026. Prologis has allocated 40% of its development pipeline to data centers." },
+];
+
+function highlight(text, q) {
+  if (!q) return text;
+  const re = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+const searchInput = document.getElementById('globalSearch');
+const searchResults = document.getElementById('searchResults');
+const searchResultsList = document.getElementById('searchResultsList');
+const searchCount = document.getElementById('searchCount');
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (!q) { closeSearch(); return; }
+  const results = searchIndex.filter(item =>
+    item.title.toLowerCase().includes(q) ||
+    item.text.toLowerCase().includes(q) ||
+    item.section.toLowerCase().includes(q)
+  );
+  searchCount.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} for "${searchInput.value}"`;
+  if (results.length === 0) {
+    searchResultsList.innerHTML = '<div class="search-empty">No results found. Try different keywords.</div>';
+  } else {
+    searchResultsList.innerHTML = results.map(r => `
+      <div class="search-item" onclick="goTo('${r.anchor}')">
+        <div class="si-section">${r.section}</div>
+        <div class="si-title">${highlight(r.title, searchInput.value)}</div>
+        <div class="si-snippet">${highlight(r.text, searchInput.value)}</div>
+      </div>
+    `).join('');
+  }
+  searchResults.style.display = 'block';
+});
+
+searchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeSearch();
+});
+
+function goTo(anchor) {
+  closeSearch();
+  document.querySelector(anchor)?.scrollIntoView({ behavior: 'smooth' });
+}
+
+function closeSearch() {
+  searchResults.style.display = 'none';
+  searchInput.value = '';
+}
+
+searchResults.addEventListener('click', (e) => {
+  if (e.target === searchResults) closeSearch();
+});
+
+// ── TABLE FILTER ──
+function filterTable(input, tableId) {
+  const q = input.value.toLowerCase();
+  document.querySelectorAll(`#${tableId} tbody tr`).forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ── ACTIVE NAV ──
+const sections = document.querySelectorAll('.content-section');
+const navLinks = document.querySelectorAll('.nav-links a, .sidebar-nav a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ── ANIMATE BARS ON SCROLL ──
+const barObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.querySelectorAll('.dq-bar').forEach(bar => {
+        bar.style.width = bar.dataset.target + '%';
+      });
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.delinquency-bars').forEach(el => barObserver.observe(el));
+
+// ── CHARTS ──
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+Chart.defaults.color = '#6B7494';
+
+const navy = '#0B1E3D', blue = '#1E5FA8', sky = '#4A9FDB', amber = '#E07A1F', green = '#2D9E6B', red = '#C94040', purple = '#8B5CF6', gold = '#C9A84C';
+
+// Executive: CMBS by sector
+new Chart(document.getElementById('cmbs_overview_chart'), {
+  type: 'bar',
+  data: {
+    labels: ['Office', 'Retail', 'Multifamily', 'Lodging', 'Industrial'],
+    datasets: [{
+      label: 'Delinquency Rate (%)',
+      data: [12.34, 7.04, 6.94, 5.56, 0.62],
+      backgroundColor: [red, amber, purple, sky, green],
+      borderRadius: 5, borderSkipped: false,
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: { y: { ticks: { callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' } }, x: { grid: { display: false } } } }
+});
+
+// Executive: Investment trend
+new Chart(document.getElementById('investment_trend_chart'), {
+  type: 'line',
+  data: {
+    labels: ['Q1 2024', 'Q2 2024', 'Q3 2024', 'Q4 2024', 'Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025'],
+    datasets: [{
+      label: 'CRE Investment ($B)',
+      data: [98, 112, 118, 133, 121, 130, 145, 171.6],
+      borderColor: blue, backgroundColor: 'rgba(30,95,168,0.08)',
+      tension: 0.4, fill: true, pointBackgroundColor: blue, pointRadius: 4,
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: { y: { ticks: { callback: v => '$' + v + 'B' }, grid: { color: 'rgba(0,0,0,0.05)' } }, x: { grid: { display: false } } } }
+});
+
+// Office vacancy
+new Chart(document.getElementById('office_vacancy_chart'), {
+  type: 'line',
+  data: {
+    labels: ['Q1 2020', 'Q1 2021', 'Q1 2022', 'Q1 2023', 'Q1 2024', 'Q3 2024', 'Q4 2025'],
+    datasets: [{
+      label: 'Vacancy %',
+      data: [11.2, 14.7, 16.4, 18.1, 19.8, 20.2, 20.5],
+      borderColor: blue, backgroundColor: 'rgba(30,95,168,0.07)',
+      tension: 0.3, fill: true, pointBackgroundColor: blue, pointRadius: 4,
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: { y: { ticks: { callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' }, min: 8, max: 24 }, x: { grid: { display: false } } } }
+});
+
+// Office absorption by market
+new Chart(document.getElementById('office_absorption_chart'), {
+  type: 'bar',
+  data: {
+    labels: ['Midtown NYC', 'San Jose', 'Dallas', 'N. New Jersey', 'Cleveland', 'Midtown S.', 'Austin'],
+    datasets: [{
+      label: 'Net Absorption (MSF)',
+      data: [6.1, 3.1, 2.2, 1.6, 1.3, 1.3, 1.1],
+      backgroundColor: [navy, blue, blue, sky, sky, sky, sky],
+      borderRadius: 5, borderSkipped: false,
+    }]
+  },
+  options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: { x: { ticks: { callback: v => v + ' MSF' }, grid: { color: 'rgba(0,0,0,0.05)' } }, y: { grid: { display: false } } } }
+});
+
+// Retail vacancy
+new Chart(document.getElementById('retail_vacancy_chart'), {
+  type: 'line',
+  data: {
+    labels: ['2020', '2021', '2022', '2023', '2024', 'Q3 2025', 'Q4 2025'],
+    datasets: [
+      { label: 'Retail Availability %', data: [6.2, 5.8, 5.2, 5.0, 4.9, 4.8, 4.8], borderColor: amber, backgroundColor: 'rgba(224,122,31,0.06)', tension: 0.3, fill: true, pointBackgroundColor: amber, pointRadius: 4 },
+      { label: 'Shopping Center Vacancy %', data: [7.1, 6.4, 5.8, 5.4, 5.3, 5.6, 5.7], borderColor: navy, backgroundColor: 'rgba(11,30,61,0.04)', tension: 0.3, fill: true, pointBackgroundColor: navy, pointRadius: 4 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { boxWidth: 10, font: { size: 11 } } } },
+    scales: { y: { ticks: { callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' }, min: 3 }, x: { grid: { display: false } } } }
+});
+
+// Retail format performance
+new Chart(document.getElementById('retail_format_chart'), {
+  type: 'radar',
+  data: {
+    labels: ['Vacancy', 'Rent Growth', 'Absorption', 'Investment', 'New Supply'],
+    datasets: [
+      { label: 'Grocery-Anchored', data: [90, 85, 80, 75, 40], borderColor: green, backgroundColor: 'rgba(45,158,107,0.15)', pointBackgroundColor: green },
+      { label: 'Mall / Power Ctr', data: [45, 35, 40, 35, 30], borderColor: red, backgroundColor: 'rgba(201,64,64,0.1)', pointBackgroundColor: red },
+      { label: 'Strip / NCC', data: [80, 75, 72, 68, 35], borderColor: amber, backgroundColor: 'rgba(224,122,31,0.1)', pointBackgroundColor: amber }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { boxWidth: 10, font: { size: 11 } } } },
+    scales: { r: { min: 0, max: 100, ticks: { display: false }, grid: { color: 'rgba(0,0,0,0.08)' } } } }
+});
+
+// Industrial vacancy
+new Chart(document.getElementById('industrial_vacancy_chart'), {
+  type: 'line',
+  data: {
+    labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026F'],
+    datasets: [{
+      label: 'Vacancy %', data: [5.1, 3.8, 3.6, 4.8, 6.5, 7.3, 7.1],
+      borderColor: green, backgroundColor: 'rgba(45,158,107,0.08)',
+      tension: 0.3, fill: true, pointBackgroundColor: green, pointRadius: 4,
+      segment: { borderDash: ctx => ctx.p0DataIndex >= 5 ? [5,3] : undefined }
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: { y: { ticks: { callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' }, min: 2 }, x: { grid: { display: false } } } }
+});
+
+// Industrial supply vs demand
+new Chart(document.getElementById('industrial_supply_chart'), {
+  type: 'bar',
+  data: {
+    labels: ['2020', '2021', '2022', '2023', '2024', '2025', '2026F'],
+    datasets: [
+      { label: 'Net Absorption (MSF)', data: [260, 450, 530, 300, 152, 177, 200], backgroundColor: 'rgba(45,158,107,0.75)', borderRadius: 4 },
+      { label: 'New Completions (MSF)', data: [180, 240, 380, 620, 450, 280, 180], backgroundColor: 'rgba(201,64,64,0.5)', borderRadius: 4 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { boxWidth: 10, font: { size: 11 } } } },
+    scales: { y: { ticks: { callback: v => v + ' MSF' }, grid: { color: 'rgba(0,0,0,0.05)' } }, x: { grid: { display: false } } } }
+});
+
+// Hotel RevPAR by chain scale
+new Chart(document.getElementById('hotel_revpar_chart'), {
+  type: 'bar',
+  data: {
+    labels: ['Luxury', 'Upper Upscale', 'Upscale', 'Upper Midscale', 'Midscale', 'Economy'],
+    datasets: [{
+      label: 'RevPAR YTD Change (%)',
+      data: [5.3, 2.1, 0.8, -0.3, -0.9, -1.8],
+      backgroundColor: ctx => ctx.parsed.y >= 0 ? 'rgba(45,158,107,0.75)' : 'rgba(201,64,64,0.65)',
+      borderRadius: 4, borderSkipped: false,
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: {
+      y: { ticks: { callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// Hotel annual RevPAR
+new Chart(document.getElementById('hotel_annual_chart'), {
+  type: 'line',
+  data: {
+    labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026F'],
+    datasets: [{
+      label: 'RevPAR YoY Change (%)',
+      data: [3.1, -48.0, 31.2, 22.1, 8.4, 1.8, -0.4, 0.7],
+      borderColor: purple, backgroundColor: 'rgba(139,92,246,0.07)',
+      tension: 0.3, fill: true, pointBackgroundColor: purple, pointRadius: 4,
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: { y: { ticks: { callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' } }, x: { grid: { display: false } } } }
+});
+
+// Capital allocation donut
+new Chart(document.getElementById('capital_allocation_chart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Data Centers', 'Industrial/Logistics', 'Multifamily', 'Retail (NCC)', 'Office (Trophy)', 'Hospitality'],
+    datasets: [{
+      data: [28, 22, 20, 12, 10, 8],
+      backgroundColor: [navy, green, blue, amber, sky, purple],
+      borderWidth: 2, borderColor: '#fff', hoverOffset: 6
+    }]
+  },
+  options: { responsive: true, maintainAspectRatio: false, cutout: '60%',
+    plugins: { legend: { position: 'right', labels: { boxWidth: 10, font: { size: 11 }, padding: 8 } } }
+  }
+});
+
+// Maturity wall
+new Chart(document.getElementById('maturity_wall_chart'), {
+  type: 'bar',
+  data: {
+    labels: ['2023', '2024', '2025', '2026F', '2027F'],
+    datasets: [
+      { label: 'Bank Loans ($B)', data: [280, 310, 395, 390, 340], backgroundColor: 'rgba(30,95,168,0.7)', borderRadius: 4 },
+      { label: 'CMBS ($B)', data: [95, 115, 130, 155, 110], backgroundColor: 'rgba(201,64,64,0.65)', borderRadius: 4 },
+      { label: 'Other ($B)', data: [150, 180, 432, 330, 280], backgroundColor: 'rgba(201,168,76,0.6)', borderRadius: 4 }
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { position: 'top', labels: { boxWidth: 10, font: { size: 11 } } } },
+    scales: {
+      x: { stacked: true, grid: { display: false } },
+      y: { stacked: true, ticks: { callback: v => '$' + v + 'B' }, grid: { color: 'rgba(0,0,0,0.05)' } }
+    }
+  }
+});
+</script>
+</body>
+</html>
