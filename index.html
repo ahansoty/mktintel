@@ -78,6 +78,12 @@ body {
   font-weight: 400;
   letter-spacing: -0.5px;
 }
+.ask-logo-img {
+  height: 40px;
+  width: auto;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
 .logo-text {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
@@ -718,6 +724,82 @@ body {
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .highlight-band { grid-template-columns: 1fr; }
 }
+/* ── LOCAL MARKET TABS ── */
+.local-tab-bar {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.local-tab {
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.local-tab:hover { background: #F0F5FF; border-color: var(--blue); color: var(--blue); }
+.local-tab.active {
+  background: var(--navy); color: var(--white);
+  border-color: var(--navy);
+}
+
+/* ── SOURCE BAR ── */
+.mkt-source-bar {
+  display: flex; align-items: center; gap: 0.4rem;
+  flex-wrap: wrap; margin-bottom: 1.25rem;
+  padding: 0.6rem 0.85rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.mkt-source-pill {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  background: rgba(30,95,168,0.08);
+  color: var(--blue);
+}
+.mkt-period {
+  margin-left: auto;
+  font-size: 11px; color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── TRANSACTION BADGES ── */
+.tx-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 7px; border-radius: 4px;
+}
+.tx-badge.new { background: rgba(45,158,107,0.12); color: #1A7A50; }
+.tx-badge.renewal { background: rgba(30,95,168,0.1); color: var(--blue); }
+.tx-badge.expansion { background: rgba(201,168,76,0.15); color: #8B6914; }
+.tx-badge.sublease { background: rgba(201,64,64,0.1); color: var(--red); }
+
+/* ── PLACEHOLDER ── */
+.placeholder-notice {
+  display: flex; align-items: flex-start; gap: 1rem;
+  background: rgba(30,95,168,0.04);
+  border: 1px dashed rgba(30,95,168,0.25);
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
+  margin-bottom: 1.25rem;
+}
+.ph-icon { font-size: 2rem; flex-shrink: 0; }
+.ph-text strong { font-size: 14px; font-weight: 600; color: var(--navy); display: block; margin-bottom: 0.3rem; }
+.ph-text p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.kpi-placeholder { opacity: 0.55; }
+.kpi-placeholder .ph-val { color: var(--text-muted) !important; letter-spacing: 0.1em; }
+.ph-table-msg {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 13px; color: var(--text-muted); font-style: italic;
+}
 </style>
 </head>
 <body>
@@ -726,7 +808,7 @@ body {
 <header class="site-header">
   <div class="header-inner">
     <a class="logo" href="#">
-      <div class="logo-mark">CRE</div>
+      <img src="data:image/png;base64,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" alt="ASK Capital Advisors" class="ask-logo-img">
       <div>
         <span class="logo-text">Market Intelligence</span>
         <span class="logo-sub">United States · Q1 2026</span>
@@ -741,6 +823,7 @@ body {
         <li><a href="#hotels">Hotels</a></li>
         <li><a href="#cmbs">CMBS</a></li>
         <li><a href="#capital">Capital Mkts</a></li>
+        <li><a href="#local">Local Markets</a></li>
       </ul>
     </nav>
     <div class="search-wrap">
@@ -765,7 +848,7 @@ body {
 <!-- HERO -->
 <div class="hero">
   <div class="hero-inner">
-    <div class="hero-eyebrow">U.S. Commercial Real Estate</div>
+    <div class="hero-eyebrow">ASK Capital Advisors · U.S. Commercial Real Estate</div>
     <h1>Market Intelligence<br><em>Report · Q1 2026</em></h1>
     <div class="hero-meta">
       <div class="hero-stat">
@@ -851,6 +934,7 @@ body {
       <a href="#hotels"><span class="nav-icon">🏨</span> Hotels & Hospitality</a>
       <a href="#cmbs"><span class="nav-icon">📉</span> CMBS & Debt</a>
       <a href="#capital"><span class="nav-icon">💼</span> Capital Markets</a>
+      <a href="#local"><span class="nav-icon">📍</span> Local Markets</a>
     </div>
   </aside>
 
@@ -1256,6 +1340,306 @@ body {
       </div>
     </section>
 
+    <!-- ── LOCAL MARKETS ── -->
+    <section class="content-section animate-in" id="local">
+      <div class="section-header">
+        <div class="section-icon" style="background:linear-gradient(135deg,#1C3560,#2E5FA3);">📍</div>
+        <div class="section-title-group">
+          <h2>Local Market Intelligence</h2>
+          <p>Los Angeles · El Segundo · Atlanta · Buckhead — Q4 2025 · Sources: Cushman & Wakefield, Colliers, Newmark, JLL, CBRE, Avison Young, Partners</p>
+        </div>
+      </div>
+
+      <!-- MARKET TABS -->
+      <div class="local-tab-bar">
+        <button class="local-tab active" onclick="switchMarket('la')">🏙️ Greater Los Angeles</button>
+        <button class="local-tab" onclick="switchMarket('elsegundo')">✈️ El Segundo</button>
+        <button class="local-tab" onclick="switchMarket('atlanta')">🌳 Greater Atlanta</button>
+        <button class="local-tab" onclick="switchMarket('buckhead')">🏛️ Buckhead</button>
+      </div>
+
+      <!-- ── GREATER LA ── -->
+      <div id="mkt-la" class="market-panel">
+        <div class="mkt-source-bar">
+          <span class="mkt-source-pill">Cushman &amp; Wakefield</span>
+          <span class="mkt-source-pill">Colliers</span>
+          <span class="mkt-source-pill">JLL</span>
+          <span class="mkt-source-pill">CBRE</span>
+          <span class="mkt-source-pill">Newmark</span>
+          <span class="mkt-period">Q4 2025 · Quarterly Broker Data</span>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-label">Overall Vacancy Rate</div><div class="kpi-value">23.4%</div><span class="kpi-change up">▲ 50 bps QoQ</span><div class="kpi-source">Cushman &amp; Wakefield Q4 2025</div></div>
+          <div class="kpi-card"><div class="kpi-label">vs. Year-End 2024</div><div class="kpi-value">−10 bps</div><span class="kpi-change down">Still improving YoY</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card"><div class="kpi-label">Q4 Net Absorption</div><div class="kpi-value">−1.0+ MSF</div><span class="kpi-change up">Negative in Q4</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card"><div class="kpi-label">New Deliveries Q4 2025</div><div class="kpi-value">0 SF</div><span class="kpi-change neutral">No new supply all year</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card"><div class="kpi-label">New Deliveries 2025 Full Yr</div><div class="kpi-value">0 SF</div><span class="kpi-change neutral">Zero deliveries</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card"><div class="kpi-label">Sublease Trend</div><div class="kpi-value">Reversing</div><span class="kpi-change up">Modest uptick at YE</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card"><div class="kpi-label">Notable Pipeline (2026)</div><div class="kpi-value">1.6 MSF</div><span class="kpi-change neutral">Century City only</span><div class="kpi-source">1950 Ave of the Stars</div></div>
+          <div class="kpi-card"><div class="kpi-label">Market Segment</div><div class="kpi-value">Office</div><span class="kpi-change neutral">All classes</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+        </div>
+
+        <div class="prose">
+          <p><strong>Q4 2025 Summary (Source: Cushman &amp; Wakefield):</strong> LA's office market closed out 2025 with less momentum than anticipated. A year-end increase in vacant inventory returning to the market resulted in over <strong>1.0 million square feet of negative absorption in Q4 2025</strong>. This pushed overall vacancy to <strong>23.4%</strong> — a 50-basis-point increase quarter-over-quarter, though still 10 bps below year-end 2024.</p>
+          <p>The steady decline of new sublease inventory observed throughout most of 2025 reversed modestly at year-end. <strong>No new office space was delivered in Q4 2025, and none over the course of the year.</strong> The near-term development pipeline remains limited, with the most notable project being <strong>1950 Avenue of the Stars in Century City</strong>, expected to deliver 1.6 MSF of new inventory to the LA West market in 2026.</p>
+          <p>Upcoming completions are concentrated in prime submarkets where pre-leasing levels are already meaningful, limiting the near-term supply risk from new construction.</p>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-card-title">LA Office Vacancy Rate — Quarterly Trend</div>
+            <div class="chart-card-sub">Source: Cushman &amp; Wakefield</div>
+            <div class="chart-container"><canvas id="la_vacancy_chart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">LA Office Net Absorption (MSF) by Quarter</div>
+            <div class="chart-card-sub">Source: Cushman &amp; Wakefield</div>
+            <div class="chart-container"><canvas id="la_absorption_chart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- KEY TRANSACTIONS -->
+        <div class="data-table-wrap">
+          <div class="data-table-toolbar">
+            <span class="data-table-title">Key LA Leasing Transactions — 2025 (All Quarters)</span>
+            <input class="table-search-input" type="text" placeholder="Filter transactions…" oninput="filterTable(this,'laLeaseTable')">
+          </div>
+          <div style="overflow-x:auto">
+          <table class="data-table" id="laLeaseTable">
+            <thead><tr><th>Quarter</th><th>Building</th><th>Submarket</th><th>SF</th><th>Tenant</th><th>Type</th></tr></thead>
+            <tbody>
+              <tr><td>Q4 2025</td><td>6301 Owensmouth</td><td>Warner Center</td><td>251,774</td><td>Farmers Insurance</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q4 2025</td><td>3701 Doolittle Dr</td><td>El Segundo</td><td>124,400</td><td>Northrop Grumman</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q4 2025</td><td>725 S Figueroa</td><td>Financial District</td><td>94,910</td><td>GSA</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q4 2025</td><td>20151 Nordhoff</td><td>Canoga Park</td><td>73,595</td><td>County of LA</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q4 2025</td><td>9465 Wilshire Blvd</td><td>Beverly Hills</td><td>50,706</td><td>Gersh Agency</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q4 2025</td><td>9336 Civic Center</td><td>Beverly Hills</td><td>193,591</td><td>United Talent Agency</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q4 2025</td><td>4820 Alla Road</td><td>Playa Vista</td><td>93,193</td><td>Electronic Arts</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q3 2025</td><td>2120 Park Pl</td><td>El Segundo</td><td>63,202</td><td>Optumcare Mgmt</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q3 2025</td><td>1500 Hughes Way</td><td>Long Beach</td><td>89,895</td><td>LA County DCFS</td><td><span class="tx-badge expansion">Expansion</span></td></tr>
+              <tr><td>Q3 2025</td><td>888 N Douglas St</td><td>El Segundo</td><td>67,725</td><td>COSM</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q3 2025</td><td>888 N Douglas St</td><td>El Segundo</td><td>54,749</td><td>Varda</td><td><span class="tx-badge sublease">Sublease</span></td></tr>
+              <tr><td>Q3 2025</td><td>2101 Rosecrans Ave</td><td>El Segundo</td><td>40,903</td><td>KPMG</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q3 2025</td><td>140-142 Oregon St</td><td>El Segundo</td><td>97,408</td><td>Chaos Industries</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q2 2025</td><td>555 S Flower St</td><td>Financial District</td><td>220,000</td><td>Oaktree Capital</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q2 2025</td><td>24200 Magic Mtn</td><td>Valencia National</td><td>138,973</td><td>Princess Cruises</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q2 2025</td><td>1 Baxter Way</td><td>Westlake Village</td><td>80,671</td><td>Amerihome Mortgage</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q2 2025</td><td>21301 Burbank Blvd</td><td>Warner Center</td><td>74,354</td><td>Universal Music Group</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q2 2025</td><td>5999 Center Dr</td><td>Culver City</td><td>74,046</td><td>Univision Television</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q1 2025</td><td>3880 Kilroy Airport</td><td>Long Beach</td><td>37,758</td><td>Mangan</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q1 2025</td><td>3880 Kilroy Airport</td><td>Long Beach</td><td>30,133</td><td>SCS Engineering</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q1 2025</td><td>1 World Trade Ctr</td><td>Long Beach</td><td>14,578</td><td>Pacific Maritime</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+
+        <div class="data-table-wrap" style="margin-top:1rem">
+          <div class="data-table-toolbar">
+            <span class="data-table-title">Key LA Sales Transactions — 2025</span>
+            <input class="table-search-input" type="text" placeholder="Filter…" oninput="filterTable(this,'laSalesTable')">
+          </div>
+          <div style="overflow-x:auto">
+          <table class="data-table" id="laSalesTable">
+            <thead><tr><th>Quarter</th><th>Building</th><th>Submarket</th><th>SF</th><th>Price ($M)</th><th>$/PSF</th></tr></thead>
+            <tbody>
+              <tr><td>Q4 2025</td><td>111 W Ocean Blvd</td><td>Long Beach</td><td>464,406</td><td>$50M</td><td>$108</td></tr>
+              <tr><td>Q4 2025</td><td>3100 New York Drive</td><td>Pasadena East</td><td>179,686</td><td>$79M</td><td>$440</td></tr>
+              <tr><td>Q4 2025</td><td>12333 W Olympic Blvd</td><td>West LA</td><td>160,000</td><td>$132M</td><td>$822</td></tr>
+              <tr><td>Q4 2025</td><td>1500 Rosecrans</td><td>El Segundo</td><td>124,000</td><td>$70M</td><td>$565</td></tr>
+              <tr><td>Q4 2025</td><td>8942 Wilshire Blvd</td><td>Beverly Hills</td><td>82,886</td><td>$90M</td><td>$1,086</td></tr>
+              <tr><td>Q3 2025</td><td>345 N Maple Dr</td><td>Beverly Hills</td><td>288,067</td><td>$205.3M</td><td>$713</td></tr>
+              <tr><td>Q3 2025</td><td>600 Corporate Point</td><td>Culver City</td><td>265,905</td><td>$45.1M</td><td>$170</td></tr>
+              <tr><td>Q3 2025</td><td>400 Corporate Point</td><td>Culver City</td><td>160,365</td><td>$27.4M</td><td>$171</td></tr>
+              <tr><td>Q3 2025</td><td>790 E Colorado Blvd</td><td>Pasadena</td><td>129,000</td><td>$31.5M</td><td>$244</td></tr>
+              <tr><td>Q2 2025</td><td>601 S Figueroa St</td><td>Financial District</td><td>1,038,971</td><td>$210M</td><td>$202</td></tr>
+              <tr><td>Q2 2025</td><td>6181 Centinela Ave</td><td>Culver City</td><td>280,000</td><td>$172M</td><td>$614</td></tr>
+              <tr><td>Q2 2025</td><td>12130 Millennium Dr</td><td>Playa Vista</td><td>194,050</td><td>$94.8M</td><td>$489</td></tr>
+              <tr><td>Q2 2025</td><td>700 N Central Ave</td><td>Glendale</td><td>130,666</td><td>$20M</td><td>$153</td></tr>
+              <tr><td>Q2 2025</td><td>1601 N Vine St</td><td>Hollywood</td><td>113,568</td><td>$105M</td><td>$925</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div><!-- /mkt-la -->
+
+      <!-- ── EL SEGUNDO ── -->
+      <div id="mkt-elsegundo" class="market-panel" style="display:none">
+        <div class="mkt-source-bar">
+          <span class="mkt-source-pill">Cushman &amp; Wakefield</span>
+          <span class="mkt-source-pill">CBRE</span>
+          <span class="mkt-source-pill">Colliers</span>
+          <span class="mkt-source-pill">JLL</span>
+          <span class="mkt-period">Q4 2025 · El Segundo Submarket</span>
+        </div>
+
+        <div class="highlight-band" style="grid-template-columns:repeat(3,1fr)">
+          <div class="hb-card red">
+            <span class="hb-label">El Segundo Vacancy Rate</span>
+            <span class="hb-value">26.8%</span>
+            <span class="hb-detail">Q4 2025 · Source: Cushman &amp; Wakefield</span>
+          </div>
+          <div class="hb-card amber">
+            <span class="hb-label">Q4 Net Absorption</span>
+            <span class="hb-value">−53K SF</span>
+            <span class="hb-detail">Negative quarter</span>
+          </div>
+          <div class="hb-card navy">
+            <span class="hb-label">YTD 2025 Net Absorption</span>
+            <span class="hb-value">−322K SF</span>
+            <span class="hb-detail">Tenant downsizing trend</span>
+          </div>
+        </div>
+
+        <div class="kpi-grid" style="margin-top:1rem">
+          <div class="kpi-card"><div class="kpi-label">Total Office Inventory</div><div class="kpi-value">11.5 MSF</div><span class="kpi-change neutral">Q4 2025</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card"><div class="kpi-label">Vacancy Rate</div><div class="kpi-value">26.8%</div><span class="kpi-change up">Elevated — above LA avg</span><div class="kpi-source">Cushman &amp; Wakefield Q4 2025</div></div>
+          <div class="kpi-card"><div class="kpi-label">Class A Asking Rent</div><div class="kpi-value">$4.09/SF</div><span class="kpi-change neutral">Per month FSG</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card"><div class="kpi-label">Q4 Net Absorption</div><div class="kpi-value">−53K SF</div><span class="kpi-change up">Negative quarter</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card"><div class="kpi-label">YTD 2025 Absorption</div><div class="kpi-value">−322K SF</div><span class="kpi-change up">Full-year negative</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card"><div class="kpi-label">PCT Property (100/200/222)</div><div class="kpi-value">1.607 MSF</div><span class="kpi-change neutral">Subject asset</span><div class="kpi-source">PCT Summary Dec 2025</div></div>
+          <div class="kpi-card"><div class="kpi-label">PCT NOI 2025 (Actual)</div><div class="kpi-value">$16.65M</div><span class="kpi-change down">▲ 22.2% YoY</span><div class="kpi-source">PCT Historical</div></div>
+          <div class="kpi-card"><div class="kpi-label">PCT Occupancy (Q4 2025)</div><div class="kpi-value">48.6%</div><span class="kpi-change up">Buildings 100/200/222</span><div class="kpi-source">PCT Summary Dec 2025</div></div>
+        </div>
+
+        <div class="prose">
+          <p><strong>El Segundo Submarket Commentary (Q4 2025 · Source: Cushman &amp; Wakefield):</strong> As of Q4 2025, the El Segundo market had a total office inventory of <strong>11.5 million square feet</strong>. The vacancy rate stands at <strong>26.8%</strong> — significantly above the broader LA average of 23.4%. Q4 net absorption came in at <strong>negative 53,000 SF</strong>, continuing a pattern of tenant contraction. YTD 2025 net absorption was <strong>negative 322,000 SF</strong>, indicating meaningful tenant downsizing activity throughout the year.</p>
+          <p>The overall Class A asking rental rate is <strong>$4.09/SF/month FSG</strong>. Despite soft market fundamentals, El Segundo continues to attract defense, aerospace, and technology tenants — many renewing significant blocks of space (Northrop Grumman: 124,400 SF renewal at 3701 Doolittle Dr in Q4 2025).</p>
+          <p><strong>PCT Property Context:</strong> The subject property at 100, 200 &amp; 222 North PCH Highway (1.607 MSF total) is a significant presence in this submarket. PCT achieved a NOI of <strong>$16.65M in 2025</strong> — up 22.2% versus 2024's $13.6M — as leasing momentum improved mid-year. Occupancy across the three buildings averaged approximately 48.6% as of December 2025.</p>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-card-title">El Segundo vs. LA Broad Vacancy Rate — Q4 2025</div>
+            <div class="chart-card-sub">Source: Cushman &amp; Wakefield</div>
+            <div class="chart-container"><canvas id="es_vacancy_compare_chart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-card-title">PCT NOI Trend (2022–2025 Actual)</div>
+            <div class="chart-card-sub">Source: PCT Summary Dec 2025</div>
+            <div class="chart-container"><canvas id="pct_noi_chart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="data-table-wrap">
+          <div class="data-table-toolbar">
+            <span class="data-table-title">El Segundo Key Leasing Transactions — 2025</span>
+            <input class="table-search-input" type="text" placeholder="Filter…" oninput="filterTable(this,'esLeaseTable')">
+          </div>
+          <div style="overflow-x:auto">
+          <table class="data-table" id="esLeaseTable">
+            <thead><tr><th>Quarter</th><th>Building</th><th>SF</th><th>Tenant</th><th>Type</th></tr></thead>
+            <tbody>
+              <tr><td>Q4 2025</td><td>3701 Doolittle Dr</td><td>124,400</td><td>Northrop Grumman</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q4 2025</td><td>2330 Utah Ave</td><td>68,301</td><td>Canvas Worldwide</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q3 2025</td><td>2120 Park Pl</td><td>63,202</td><td>Optumcare Mgmt</td><td><span class="tx-badge renewal">Renewal</span></td></tr>
+              <tr><td>Q3 2025</td><td>888 N Douglas St</td><td>67,725</td><td>COSM</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q3 2025</td><td>888 N Douglas St</td><td>54,749</td><td>Varda</td><td><span class="tx-badge sublease">Sublease</span></td></tr>
+              <tr><td>Q3 2025</td><td>2101 Rosecrans Ave</td><td>40,903</td><td>KPMG</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q3 2025</td><td>140-142 Oregon St</td><td>97,408</td><td>Chaos Industries</td><td><span class="tx-badge new">New</span></td></tr>
+              <tr><td>Q1 2025</td><td>777 S Aviation Blvd</td><td>20,796</td><td>DTI</td><td><span class="tx-badge new">New</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+
+        <div class="data-table-wrap" style="margin-top:1rem">
+          <div class="data-table-toolbar">
+            <span class="data-table-title">PCT Building Occupancy by Year</span>
+          </div>
+          <div style="overflow-x:auto">
+          <table class="data-table" id="pctOccTable">
+            <thead><tr><th>Year</th><th>Building 100 Occ.</th><th>Building 200 Occ.</th><th>Building 222 Occ.</th><th>Portfolio Occ.</th><th>Avg Rent/SF/Yr</th></tr></thead>
+            <tbody>
+              <tr><td>2021</td><td>56.2%</td><td>77.3%</td><td>87.3%</td><td>74.4%</td><td>$40.68</td></tr>
+              <tr><td>2022</td><td>56.9%</td><td>59.6%</td><td>74.6%</td><td>64.3%</td><td>$42.46</td></tr>
+              <tr><td>2024</td><td>34.9%</td><td>38.9%</td><td>68.4%</td><td>48.6%</td><td>$45.13</td></tr>
+              <tr><td>2025 (Dec)</td><td>33.4%</td><td>38.7%</td><td>68.4%</td><td>~48.6%</td><td>Est. ~$45–47</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div><!-- /mkt-elsegundo -->
+
+      <!-- ── ATLANTA ── -->
+      <div id="mkt-atlanta" class="market-panel" style="display:none">
+        <div class="mkt-source-bar">
+          <span class="mkt-source-pill">Cushman &amp; Wakefield</span>
+          <span class="mkt-source-pill">Colliers</span>
+          <span class="mkt-source-pill">JLL</span>
+          <span class="mkt-source-pill">CBRE</span>
+          <span class="mkt-source-pill">Avison Young</span>
+          <span class="mkt-source-pill">Newmark</span>
+          <span class="mkt-source-pill">Partners</span>
+          <span class="mkt-period">Q4 2025 · Broader Atlanta Market · To be updated quarterly</span>
+        </div>
+
+        <div class="placeholder-notice">
+          <div class="ph-icon">📋</div>
+          <div class="ph-text">
+            <strong>Atlanta Market — Data Pending Quarterly Broker Reports</strong>
+            <p>This section is structured to receive quarterly market data from Cushman &amp; Wakefield, Colliers, Newmark, JLL, CBRE, Avison Young, and Partners. KPIs, transaction tables, and charts below will populate when Q4 2025 broker reports are uploaded.</p>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Overall Vacancy Rate</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">C&amp;W / JLL / CBRE</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Net Absorption (Q4)</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Class A Asking Rent</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Colliers / CBRE</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Total Inventory (MSF)</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Newmark / JLL</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">New Deliveries Q4</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Avison Young</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">YTD Absorption</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Partners / JLL</div></div>
+        </div>
+
+        <div class="data-table-wrap">
+          <div class="data-table-toolbar">
+            <span class="data-table-title">Atlanta Key Transactions — Q4 2025</span>
+          </div>
+          <div class="ph-table-msg">Transaction data to be populated from broker reports (Cushman &amp; Wakefield, Colliers, JLL, CBRE, Avison Young, Newmark, Partners).</div>
+        </div>
+      </div><!-- /mkt-atlanta -->
+
+      <!-- ── BUCKHEAD ── -->
+      <div id="mkt-buckhead" class="market-panel" style="display:none">
+        <div class="mkt-source-bar">
+          <span class="mkt-source-pill">Cushman &amp; Wakefield</span>
+          <span class="mkt-source-pill">Colliers</span>
+          <span class="mkt-source-pill">JLL</span>
+          <span class="mkt-source-pill">CBRE</span>
+          <span class="mkt-source-pill">Avison Young</span>
+          <span class="mkt-source-pill">Newmark</span>
+          <span class="mkt-source-pill">Partners</span>
+          <span class="mkt-period">Q4 2025 · Buckhead Submarket · To be updated quarterly</span>
+        </div>
+
+        <div class="placeholder-notice">
+          <div class="ph-icon">📋</div>
+          <div class="ph-text">
+            <strong>Buckhead Submarket — Data Pending Quarterly Broker Reports</strong>
+            <p>This section will capture Buckhead-specific office market metrics from the seven broker firms publishing quarterly data. KPIs, absorption trends, rent growth, and transaction detail will populate as reports are received.</p>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Buckhead Vacancy Rate</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">C&amp;W / JLL / CBRE</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Net Absorption (Q4)</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Cushman &amp; Wakefield</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Class A Asking Rent</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Colliers / CBRE</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Total Inventory (MSF)</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Newmark / JLL</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Sublease Availability</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Avison Young</div></div>
+          <div class="kpi-card kpi-placeholder"><div class="kpi-label">Under Construction</div><div class="kpi-value ph-val">—</div><span class="kpi-change neutral">Awaiting data</span><div class="kpi-source">Partners / JLL</div></div>
+        </div>
+
+        <div class="data-table-wrap">
+          <div class="data-table-toolbar">
+            <span class="data-table-title">Buckhead Key Transactions — Q4 2025</span>
+          </div>
+          <div class="ph-table-msg">Transaction data to be populated from broker reports.</div>
+        </div>
+      </div><!-- /mkt-buckhead -->
+
+    </section><!-- /local -->
+
   </main>
 </div>
 
@@ -1263,7 +1647,7 @@ body {
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-left">
-      <h3>U.S. CRE Market Intelligence Report · Q1 2026</h3>
+      <h3>ASK Capital Advisors · U.S. CRE Market Intelligence · Q1 2026</h3>
       <p>Data aggregated from leading commercial real estate research providers. All figures from publicly available sources as of March 2026. For informational purposes only — not investment advice.</p>
     </div>
     <div>
@@ -1615,6 +1999,80 @@ new Chart(document.getElementById('maturity_wall_chart'), {
     }
   }
 });
+
+// ── LOCAL MARKET TAB SWITCHING ──
+function switchMarket(id) {
+  document.querySelectorAll('.market-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.local-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('mkt-' + id).style.display = 'block';
+  event.currentTarget.classList.add('active');
+  if (id === 'elsegundo' && !window._esChartsInit) { initESCharts(); window._esChartsInit = true; }
+}
+
+function initLACharts() {
+  new Chart(document.getElementById('la_vacancy_chart'), {
+    type: 'line',
+    data: {
+      labels: ['Q4 2022','Q1 2023','Q2 2023','Q3 2023','Q4 2023','Q1 2024','Q2 2024','Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025'],
+      datasets: [{
+        label: 'LA Vacancy %',
+        data: [18.2,19.1,19.8,20.6,21.3,22.0,22.5,22.9,23.5,23.1,22.8,22.9,23.4],
+        borderColor:'#1E5FA8', backgroundColor:'rgba(30,95,168,0.07)',
+        tension:0.3, fill:true, pointBackgroundColor:'#1E5FA8', pointRadius:3,
+      }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ y:{ticks:{callback:v=>v+'%'}, grid:{color:'rgba(0,0,0,0.05)'}, min:15, max:26}, x:{grid:{display:false}, ticks:{font:{size:10}}} } }
+  });
+  new Chart(document.getElementById('la_absorption_chart'), {
+    type:'bar',
+    data:{
+      labels:['Q1 2024','Q2 2024','Q3 2024','Q4 2024','Q1 2025','Q2 2025','Q3 2025','Q4 2025'],
+      datasets:[{
+        label:'Net Absorption (MSF)',
+        data:[-0.8,-0.5,-0.3,-0.6,0.1,0.2,0.3,-1.0],
+        backgroundColor:ctx=>ctx.parsed.y>=0?'rgba(45,158,107,0.7)':'rgba(201,64,64,0.65)',
+        borderRadius:4, borderSkipped:false,
+      }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ y:{ticks:{callback:v=>v+' MSF'}, grid:{color:'rgba(0,0,0,0.05)'}}, x:{grid:{display:false}} } }
+  });
+}
+
+function initESCharts() {
+  new Chart(document.getElementById('es_vacancy_compare_chart'), {
+    type:'bar',
+    data:{
+      labels:['Greater LA','El Segundo','Beverly Hills','Culver City','West LA','Financial Dist.'],
+      datasets:[{
+        label:'Vacancy Rate %',
+        data:[23.4,26.8,19.2,24.1,21.5,25.8],
+        backgroundColor:ctx=>ctx.dataIndex===1?'rgba(201,64,64,0.75)':ctx.dataIndex===0?'rgba(30,95,168,0.7)':'rgba(30,95,168,0.35)',
+        borderRadius:4, borderSkipped:false,
+      }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ y:{ticks:{callback:v=>v+'%'}, grid:{color:'rgba(0,0,0,0.05)'}, min:0, max:32}, x:{grid:{display:false}, ticks:{font:{size:10}}} } }
+  });
+  new Chart(document.getElementById('pct_noi_chart'), {
+    type:'bar',
+    data:{
+      labels:['2022 (A)','2023 (A)','2024 (A)','2025 (A)'],
+      datasets:[{
+        label:'NOI ($M)',
+        data:[27.2,20.9,13.6,16.7],
+        backgroundColor:['rgba(30,95,168,0.6)','rgba(30,95,168,0.6)','rgba(201,64,64,0.6)','rgba(45,158,107,0.75)'],
+        borderRadius:5, borderSkipped:false,
+      }]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}},
+      scales:{ y:{ticks:{callback:v=>'$'+v+'M'}, grid:{color:'rgba(0,0,0,0.05)'}}, x:{grid:{display:false}} } }
+  });
+}
+
+initLACharts();
+window._laChartsInit = true;
 </script>
 </body>
 </html>
